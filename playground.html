@@ -9,12 +9,32 @@
   <body>
     <h1>yo yo ye</h1>
     <div id="app">
+      <h1>Counter</h1>
+      <p>{{ count }}  </p>
+      <button v-on:click="incrementCount">Increment Count</button>
+
+      <h1>{{ incrementAmount }}</h1>
+
+      <div>
+        <label>Increment by: </label>
+        <input 
+          type="number"
+          v-model="incrementAmount"
+        /> 
+        <!-- v-bind:value="incrementAmount" 
+          v-on:input="changeIncrementAmount" --> 
+      </div>
+      <hr />
+
       <p v-if="message.length % 2 === 0"> Even:
-        {{ message }}
+        {{ message.toUpperCase()}}
       </p>
       <p v-else> Odd:
         {{ message }}
       </p>
+      <ul>
+        <li v-for="number in listOfNumbers">{{ number * Math.random() }}</li>
+      </ul>
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
@@ -23,8 +43,19 @@
       const app = createApp({
         data() {
           return {
-            message: "Hello it works!"
+            message: "Hello it works",
+            listOfNumbers : [1,2,3,4,5], 
+            count: 10,
+            incrementAmount: 1,
           }
+        },
+        methods: {
+          /*changeIncrementAmount(event) {
+            this.incrementAmount = Number(event.target.value);
+           }, */
+           incrementCount() {
+            this.count += this.incrementAmount;
+           }
         }
       });
 
