@@ -9,11 +9,12 @@
   <body>
     <h1>yo yo ye</h1>
     <div id="app">
-      <h1>Counter</h1>
+      <h1>{{ displayTitle }}</h1>
       <p v-bind:data-increment-by="incrementAmount">{{ count }}  </p>
       <button @click="incrementCount">Increment Count</button>
 
       <h1>{{ incrementAmount }}</h1>
+      <h3>optimizedIncrementAmount: {{ optimizedIncrementAmount }}</h3>
 
       <div>
         <label>Increment by: </label>
@@ -43,19 +44,41 @@
       const app = createApp({
         data() {
           return {
+            counterTitle: "Counter Standard",
             message: "Hello it works",
             listOfNumbers : [1,2,3,4,5], 
             count: 10,
-            incrementAmount: 1,
+            incrementAmount: 3,
           }
+        },
+        //like useMemo in React; use when you have multiple dependencies; it is aobut managing data
+        computed: {
+          displayTitle () {
+            if(this.count > 20) {
+              return this.counterTitle + ' Very Long'
+            } else {
+              return this.counterTitle
+            }
+          },
+          optimizedIncrementAmount() {
+            return this.displayTitle.length * this.incrementAmount;
+          } 
         },
         methods: {
           /*changeIncrementAmount(event) {
             this.incrementAmount = Number(event.target.value);
            }, */
            incrementCount() {
-            this.count += this.incrementAmount;
+            this.count += this.optimizedIncrementAmount;
            }
+        },
+        //like useEffect in React; use when you want to create a side effect; it is about managing, triggering actions
+        watch: {
+          /* count(newValue) {
+            if(newValue > 15) {
+              this.counterTitle  += ' very long';
+            }
+          } */
         }
       });
 

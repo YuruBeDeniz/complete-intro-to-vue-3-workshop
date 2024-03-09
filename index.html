@@ -8,6 +8,13 @@
   </head>
   <body>
     <div id="app">
+    <h2>Statistics</h2>  
+    <ul>
+      <li>Idol: {{ idolList }}</li>
+      <li>Spineless: </li>
+      <li>Definition of Charisma: </li>
+    </ul>
+
     <h1>Seinfeld characters:</h1>
     <p v-if="characterList.length === 0">There are no characters..</p>
     <ul v-else>
@@ -29,7 +36,7 @@
     <input 
       type="text" 
       v-model="newCharacter.name" 
-      @keyup.enter="addNewCharacter" #
+      @keyup.enter="addNewCharacter"
     />
 
 
@@ -42,15 +49,23 @@
         data: () => ({
           newCharacter: {
             name: "",
+            characteristics: [],
           },
           characterList : [ 
-            { name: "George" }, 
-            { name: "Kramer" }, 
-            { name: "Elaine" }, 
-            { name: "Jerry" }
+            { name: "George", characteristics: ["spineless"] }, 
+            { name: "Kramer", characteristics: ["definition of charisma", "idol", "spineless"] }, 
+            { name: "Elaine", characteristics: ["idol", "spineless"] }, 
+            { name: "Jerry" , characteristics: ["what to say..", "spineless"]}
           ],
           favoriteList: [],
         }),
+        computed: {
+          idolList() {
+            return this.characterList.filter(character => 
+            character.characteristics.includes("idol")
+            ).length;
+          }
+        },
         methods: {
           addNewCharacter() {
             this.characterList.push(this.newCharacter);
